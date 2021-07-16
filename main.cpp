@@ -2,6 +2,8 @@
 #include <stdint.h> // for uint8_t
 #include <stdio.h> // for printf
 
+static int BYTE_SIZE = 8;
+
 void dump(void* p, size_t n) {
 	uint8_t* u8 = static_cast<uint8_t*>(p);
 	size_t i = 0;
@@ -20,10 +22,14 @@ void write_4660() {
 	dump(&port, sizeof(port));
 }
 
+uint16_t my_ntohs(uint16_t a) {
+  return a >> BYTE_SIZE | a << BYTE_SIZE;
+}
+
 void  write_0x1234() {
 	uint8_t network_buffer[] = { 0x12, 0x34 };
 	uint16_t* p = reinterpret_cast<uint16_t*>(network_buffer);
-	uint16_t n = *p; // TODO
+	uint16_t n = my_ntohs(*p); // TODO
 	printf("16 bit number=0x%x\n", n);
 }
 
@@ -35,7 +41,5 @@ void  write_0x12345678() {
 }
 
 int main() {
-	write_4660();
 	write_0x1234();
-	write_0x12345678();
 }
