@@ -33,13 +33,21 @@ void  write_0x1234() {
 	printf("16 bit number=0x%x\n", n);
 }
 
+uint32_t my_ntohl(uint32_t a) {
+  uint32_t a1 = (a & 0xFF000000) >> 3 * BYTE_SIZE;
+  uint32_t a2 = (a & 0x00FF0000) >> BYTE_SIZE;
+  uint32_t a3 = (a & 0x0000FF00) << BYTE_SIZE;
+  uint32_t a4 = (a & 0x000000FF) << 3 * BYTE_SIZE;
+  return a1 | a2 | a3 | a4;
+}
+
 void  write_0x12345678() {
 	uint8_t network_buffer[] = { 0x12, 0x34, 0x56, 0x78 };
 	uint32_t* p = reinterpret_cast<uint32_t*>(network_buffer);
-	uint32_t n = *p; // TODO
+	uint32_t n = my_ntohl(*p); // TODO
 	printf("32 bit number=0x%x\n", n);
 }
 
 int main() {
-	write_0x1234();
+	write_0x12345678();
 }
