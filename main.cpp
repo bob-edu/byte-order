@@ -1,6 +1,7 @@
 #include <stddef.h> // for size_t
 #include <stdint.h> // for uint8_t
 #include <stdio.h> // for printf
+#include <netinet/in.h> // for ntohs, ntohl
 
 static int BYTE_SIZE = 8;
 
@@ -29,7 +30,7 @@ uint16_t my_ntohs(uint16_t a) {
 void  write_0x1234() {
 	uint8_t network_buffer[] = { 0x12, 0x34 };
 	uint16_t* p = reinterpret_cast<uint16_t*>(network_buffer);
-	uint16_t n = my_ntohs(*p); // TODO
+	uint16_t n = ntohs(*p); // TODO
 	printf("16 bit number=0x%x\n", n);
 }
 
@@ -44,10 +45,11 @@ uint32_t my_ntohl(uint32_t a) {
 void  write_0x12345678() {
 	uint8_t network_buffer[] = { 0x12, 0x34, 0x56, 0x78 };
 	uint32_t* p = reinterpret_cast<uint32_t*>(network_buffer);
-	uint32_t n = my_ntohl(*p); // TODO
+	uint32_t n = ntohl(*p); // TODO
 	printf("32 bit number=0x%x\n", n);
 }
 
 int main() {
+	write_0x1234();
 	write_0x12345678();
 }
